@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
-require_relative "lib/redis/version"
+require_relative "lib/rc/version"
 
 Gem::Specification.new do |spec|
-  spec.name = "redis"
-  spec.version = Redis::VERSION
+  spec.name = "rc"
+  spec.version = RC::VERSION
   spec.authors = ["sadicangel"]
   spec.email = ["sadicangel@hotmail.com"]
 

@@ -1,12 +1,13 @@
 PATH
   remote: .
   specs:
-    redis (0.1.0)
+    rc (0.1.0)
 
 GEM
   remote: https://rubygems.org/
   specs:
     ast (2.4.2)
+    connection_pool (2.5.0)
     json (2.10.1)
     language_server-protocol (3.17.0.4)
     lint_roller (1.1.0)
@@ -20,6 +21,10 @@ GEM
     racc (1.8.1)
     rainbow (3.1.1)
     rake (13.2.1)
+    redis (5.4.0)
+      redis-client (>= 0.22.0)
+    redis-client (0.23.2)
+      connection_pool
     regexp_parser (2.10.0)
     rubocop (1.72.2)
       json (~> 2.3)
@@ -48,7 +53,8 @@ DEPENDENCIES
   minitest (~> 5.16)
   ostruct
   rake (~> 13.0)
-  redis!
+  rc!
+  redis
   rubocop (~> 1.21)
 
 BUNDLED WITH
