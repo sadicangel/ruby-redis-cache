@@ -7,18 +7,16 @@ class TestRedis < Minitest::Test
     refute_nil RC::VERSION
   end
 
-  SERVER_PORT = "42069"
-
   def test_responds_to_ping
-    RC::start_server(SERVER_PORT)
-    redis = Redis.new(port: SERVER_PORT)
+    server = RC.start_server
+    redis = Redis.new(port: server.port)
     response = redis.ping
     assert_equal "PONG", response
   end
 
   def test_multiple_commands_from_same_client
-    RC::start_server(SERVER_PORT)
-    r = Redis.new(port: SERVER_PORT)
+    server = RC.start_server
+    r = Redis.new(port: server.port)
 
     r.without_reconnect do
       assert_equal "PONG", r.ping
@@ -27,9 +25,9 @@ class TestRedis < Minitest::Test
   end
 
   def test_multiple_clients
-    RC::start_server(SERVER_PORT)
-    r1 = Redis.new(port: SERVER_PORT)
-    r2 = Redis.new(port: SERVER_PORT)
+    server = RC.start_server
+    r1 = Redis.new(port: server.port)
+    r2 = Redis.new(port: server.port)
 
     assert_equal "PONG", r1.ping
     assert_equal "PONG", r2.ping

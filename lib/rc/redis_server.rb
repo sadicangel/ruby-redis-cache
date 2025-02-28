@@ -4,25 +4,33 @@ require "socket"
 
 module RC
   class RedisServer
-    # @param [string] port
-    def initialize(port)
-      @server = TCPServer.new(port)
+    # @param [int] port
+    def initialize(port = 0)
+      @server = TCPServer.new("0.0.0.0", port)
+      @clients = []
+      @port = @server.addr[1]
     end
+
+    attr_reader :port
 
     def listen
       loop do
-        client = @server.accept
-        handle(client)
+        watch_list = [@server, *@clients]
+        read, _write, _error = IO.select(watch_list)
+        read.each do |ready|
+          if ready == @server
+            @clients << @server.accept
+          else
+            handle(ready)
+          end
+        end
       end
     end
 
     # @param [TCPSocket] client
     def handle(client)
-      Thread.new do
-        loop do
-          client.write("+PONG\r\n")
-        end
-      end
+      client.readpartial(1024) # TODO: Read actual command
+      client.write("+PONG\r\n")
     end
   end
 end

@@ -6,8 +6,8 @@ require "rc/redis_server"
 module RC
   class Error < StandardError; end
 
-  # @param [string] port
-  def self.start_server(port)
+  # @param [int] port
+  def self.start_server(port = 0)
     server = RedisServer.new(port)
     Thread.new { server.listen }
     server
